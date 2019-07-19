@@ -1,44 +1,25 @@
 <template>
   <div id="app">
-    <div class="header">
-      <div class="header-row">
-        <div class="header-row__logo">
-          <router-link class="header-row__logo-link" to="/">Movie Catalog</router-link>
-        </div>
-        <div class="header-row__search">
-         <Search></Search>
-        </div>
-        <div class="header-row__user">
-          <User></User>
-        </div>
-      </div>
-    </div>
     <router-view/>
-    <Pagination></Pagination>
-
   </div>
 </template>
 
 <script>
 
-import User from './components/User.vue';
-import Search from './components/Search.vue';
-import Pagination from './components/Pagination.vue';
+
 
 
 export default {
-    name: 'App',
-    components: {
-      Search,
-      User,
-      Pagination,
-    },
-    data() {
-      return {
-        loading: true,
-      }
-    },
-  };
+  name: 'App',
+  components: {
+
+  },
+  data() {
+    return {
+      loading: true,
+    };
+  },
+};
 </script>
 
 <style lang="scss">

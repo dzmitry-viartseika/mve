@@ -1,43 +1,43 @@
 <template>
-    <div class="movies">
-      <div class="movies__result">
-        You searched for: Batman, {{this.founded}} results found
-      </div>
-      <div class="movies-row">
-        <div class="movies-row__block" v-for="(movie,index) in info" :key="index">
-          <img class="movies-row__block-img" src="../assets/images/img.png" alt="">
-          <div class="movies-row__block-text">Name: {{movie.Title}}</div>
-          <div class="movies-row__block-text">Year: {{movie.Year}}</div>
-          <div class="movies-row__block-text">imbdID: {{movie.imdbID}}</div>
-          <div class="movies-row__block-text">Type: {{movie.Type}}</div>
-        </div>
+  <div class="movies">
+    <div class="movies__result">
+      You searched for: Batman, {{this.founded}} results found
+    </div>
+    <div class="movies-row">
+      <div class="movies-row__block" v-for="(movie,index) in filtered" :key="index">
+        <img class="movies-row__block-img" src="../assets/images/img.png" alt="">
+        <div class="movies-row__block-text">Name: {{movie.Title}}</div>
+        <div class="movies-row__block-text">Year: {{movie.Year}}</div>
+        <div class="movies-row__block-text">imbdID: {{movie.imdbID}}</div>
+        <div class="movies-row__block-text">Type: {{movie.Type}}</div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 
-import axios from 'axios';
 
-    export default {
-        name: "Movies",
-      data() {
-          return {
-            info: '',
-            founded: 0
-          }
-      },
-      beforeMount() {
-        axios
-          .get('https://www.omdbapi.com/?i=tt3896198&apikey=8523cbb8&s=Batman&page=2')
-          .then(response => {
-            this.info = response.data.Search;
-            console.log(this.info)
-          })
-          .catch(err => console.log(err))
-          .finally(() => (this.loading = false));
-        }
-}
+  export default {
+    name: 'Movies',
+    props: ['filtered','searching'],
+    data() {
+      return {
+        founded: 0,
+      };
+    },
+    computed: {
+      filteredSearch() {
+        return  this.filtered.filter((movie) => {
+          return movie.Title.match(this.search);
+        })
+      }
+    },
+    beforeMount() {
+      console.log(this.filtered);
+      console.log(this.searching);
+    }
+  };
 </script>
 
 <style scoped lang="scss">
@@ -47,14 +47,14 @@ import axios from 'axios';
   .movies {
     padding: 25px 50px 0;
     @media screen and (max-width: 510px) {
-        & {
-          padding: 10px 10px 0;
-        }
-    }
-      &__result {
-        font-weight: bold;
-        font-size: 20px;
+      & {
+        padding: 10px 10px 0;
       }
+    }
+    &__result {
+      font-weight: bold;
+      font-size: 20px;
+    }
     &-row {
       margin-top: 60px;
       display: flex;
@@ -78,4 +78,5 @@ import axios from 'axios';
       }
     }
   }
+
 </style>
